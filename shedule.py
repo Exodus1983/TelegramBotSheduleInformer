@@ -4,7 +4,7 @@ doc = docx.Document(r'c:\users\admin\Desktop\Telegram_bot\Plan.docx')
 
 def get_shedule(dic):
     name = dic['name']
-    if name == 'все':
+    if name.lower() == 'все':
         name = ''
     startdate = dic['startdate']
     enddate = dic['enddate']

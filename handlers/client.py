@@ -3,7 +3,10 @@ from create_bot import bot
 from shedule import get_shedule
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from keyboards import kb_client_start, kb_client_days, kb_client_month
 
+async def command_start(message : types.Message):
+    await bot.send_message(message.from_user.id, 'Привет, что хочешь узнать?', reply_markup=kb_client_start)
 
 class FSMClient(StatesGroup):
     name = State()
@@ -23,7 +26,7 @@ async def set_group(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text
     await FSMClient.next()
-    await message.reply('Введи месяц')
+    await message.reply('Введи месяц', reply_markup=kb_client_month)
 
 #Второй ответ - месяц
 
@@ -31,7 +34,7 @@ async def set_month(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['month'] = message.text
     await FSMClient.next()
-    await message.reply('Введи начальную дату')
+    await message.reply('Введи начальную дату', reply_markup=kb_client_days)
 
 #Третий - начальная дата
 
@@ -39,20 +42,19 @@ async def set_startdate(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['startdate'] = message.text
     await FSMClient.next()
-    await message.reply('Введи конечную дату')
+    await message.reply('Введи конечную дату', reply_markup=kb_client_days)
 
 #Четвертый ответ - конечная дата
 
 async def set_enddate(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['enddate'] = message.text
-    await bot.send_message(message.from_user.id, get_shedule(data))
+    await bot.send_message(message.from_user.id, get_shedule(data), reply_markup = kb_client_start)
     await state.finish()
 
 
 
-async def command_start(message : types.Message):
-    await bot.send_message(message.from_user.id, 'Привет, что хочешь узнать?')
+
 
 
 
