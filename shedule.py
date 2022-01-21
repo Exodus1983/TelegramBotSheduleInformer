@@ -1,17 +1,53 @@
 import docx
+from datetime import datetime
 
-doc = docx.Document(r'c:\users\admin\Desktop\Telegram_bot\Plan.docx')
+
+
+monthdict = {'январь': '1_январь.docx',
+             'февраль': '2_февраль.docx',
+             'март': '',
+             'апрель': '',
+             'май':'',
+             'июнь':'',
+             'июль':'',
+             'август':'',
+             'сентябрь':'',
+             'октябрь':'',
+             'ноябрь':'',
+             'декабрь':''
+             }
 
 def get_shedule(dic):
+
+#обработка введенной группы
     name = dic['name']
     if name.lower() == 'все':
         name = ''
+
+#обработка периода дат выборки
     startdate = dic['startdate']
-    enddate = dic['enddate']
-    month = dic['month']
+    if startdate == 'Весь месяц':
+        startdate = '01'
+        enddate = '31'
+    elif startdate == 'Сегодня':
+        startdate = str(datetime.now().day)
+        enddate = startdate
+    else:
+        enddate = dic['enddate']
+    if not startdate.isdigit() or not enddate.isdigit():
+        return 'Введите дату числами с клавиатуры!'
+    if int(startdate) > int(enddate):
+        return 'конечная дата периода раньше начальной'
 
+#обработка месяца = выбор нужного файла
+    month = dic['month'].lower()
+    if month in monthdict.keys():
+        docpath = 'c:\\users\\admin\\Desktop\\Telegram_bot\\'
+        doc = docx.Document(docpath + monthdict[month])
+    else:
+        return 'Введите месяц с клавиатуры'
+#основной поиск
     table = doc.tables[0]
-
 
     arr = []
     for j in range(1,len(table.rows)):

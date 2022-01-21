@@ -32,8 +32,9 @@ b29 = KeyboardButton('29')
 b30 = KeyboardButton('30')
 b31 = KeyboardButton('31')
 b32 = KeyboardButton('Весь месяц')
+b33 = KeyboardButton('Сегодня')
 
 
 
 kb_client_days = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_client_days.row(b01, b02, b03, b04, b05, b06, b07).row(b08, b09, b10, b11, b12, b13, b14).row(b15, b16, b17, b18, b19, b20, b21).row(b22, b23, b24, b25, b26, b27, b28).row(b29, b30, b31, b32)
+kb_client_days.row(b01, b02, b03, b04, b05, b06, b07).row(b08, b09, b10, b11, b12, b13, b14).row(b15, b16, b17, b18, b19, b20, b21).row(b22, b23, b24, b25, b26, b27, b28).row(b29, b30, b31, b32, b33)
